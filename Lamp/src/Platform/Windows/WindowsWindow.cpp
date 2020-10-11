@@ -44,6 +44,10 @@ namespace Lamp
 		{
 			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		}
+		else if (Renderer::GetAPI() == RendererAPI::API::Vulkan)
+		{
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+		}
 #endif
 		//Create the window
 		m_pWindow = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(), NULL, NULL);

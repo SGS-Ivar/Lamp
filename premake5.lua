@@ -58,13 +58,15 @@ project "Lamp"
 		"%{prj.name}/vendor/assimp/include",
 		"%{prj.name}/vendor/fmod/include",
 		"%{prj.name}/vendor/ImGuizmo/include",
-		"%{prj.name}/vendor/dxerr"
+		"%{prj.name}/vendor/dxerr",
+		"%{prj.name}/vendor/vulkan/include"
 	}
 	
 	libdirs
 	{
 		"%{prj.name}/vendor/assimp",
-		"%{prj.name}/vendor/fmod"
+		"%{prj.name}/vendor/fmod",
+		"%{prj.name}/vendor/vulkan/lib"
 	}
 	
 	links 
@@ -78,7 +80,8 @@ project "Lamp"
 		"fmodstudio_vc.lib",
 		"fmod_vc.lib",
 		"d3d11.lib",
-		"d3dcompiler.lib"
+		"d3dcompiler.lib",
+		"vulkan-1.lib"
 	}
 
 	filter "system:windows"

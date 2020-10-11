@@ -27,7 +27,7 @@ namespace Lamp
 		m_pWindow = Window::Create();
 		m_pWindow->SetEventCallback(BIND_EVENT_FN(OnEvent));
 
-		Renderer::Initialize();
+		//Renderer::Initialize();
 		AudioEngine::Initialize();
 
 		//Setup the GUI system

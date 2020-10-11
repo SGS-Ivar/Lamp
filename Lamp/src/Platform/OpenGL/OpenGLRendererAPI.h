@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Lamp/Rendering//RendererAPI.h"
+#include "Lamp/Rendering/RendererAPI.h"
 
 namespace Lamp
 {
@@ -8,7 +8,6 @@ namespace Lamp
 	{
 	public:
 		virtual ~OpenGLRendererAPI() override = default;
-
 
 		virtual void Initialize() override;
 		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;

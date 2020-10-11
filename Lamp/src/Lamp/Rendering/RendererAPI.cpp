@@ -8,10 +8,11 @@
 namespace Lamp
 {
 #ifdef LP_PLATFORM_WINDOWS
-	RendererAPI::API RendererAPI::s_API = RendererAPI::API::DX11;
 #define	GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define	GLM_FORCE_LEFT_HANDED
+#define GLFW_INCLUDE_VULKAN
+	RendererAPI::API RendererAPI::s_API = RendererAPI::API::Vulkan;
 #else
+	RendererAPI::API RendererAPI::s_API = RendererAPI::API::DX11;
 	RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
 #endif
 

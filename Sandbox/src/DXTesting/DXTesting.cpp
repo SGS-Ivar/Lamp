@@ -21,10 +21,10 @@ namespace DXTesting
 
 	bool DXTesting::OnUpdate(Lamp::AppUpdateEvent& e)
 	{
-		Lamp::RenderCommand::SetClearColor({ 0.3f, 0.3f, 0.3f, 1.f });
-		Lamp::RenderCommand::Clear();
-
-		Lamp::RenderCommand::DrawIndexed(nullptr, 0u);
+		//Lamp::RenderCommand::SetClearColor({ 0.3f, 0.3f, 0.3f, 1.f });
+		//Lamp::RenderCommand::Clear();
+		
+		//Lamp::RenderCommand::DrawIndexed(nullptr, 0u);
 
 		return false;
 	}
