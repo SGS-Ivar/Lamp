@@ -1,17 +1,10 @@
 #include "lppch.h"
 #include "Sandbox3D.h"
 
-#include <Lamp/Level/LevelSystem.h>
-#include <Lamp/Meshes/GeometrySystem.h>
 #include <imgui/misc/cpp/imgui_stdlib.h>
-#include <Lamp/Objects/ObjectLayer.h>
-
-#include <Lamp/Objects/Entity/Base/Entity.h>
-#include <Lamp/Objects/Entity/Base/ComponentRegistry.h>
 #include <ImGuizmo/ImGuizmo.h>
 
-#include <Lamp/Core/CoreLogger.h>
-#include "Lamp/Utility/PlatformUtility.h"
+#include <Lamp.h>
 
 namespace Sandbox3D
 {
@@ -669,7 +662,7 @@ namespace Sandbox3D
 
 		ImGui::Begin("Level Settings", &m_LevelSettingsOpen);
 
-		ImGui::ColorEdit3("Global Ambient", glm::value_ptr(Lamp::LevelSystem::GetEnvironment().GlobalAmbient));
+		ImGui::ColorEdit3("Global Ambient", glm::value_ptr(Lamp::LevelHandler::GetCurrent()->GetEnvironment().GlobalAmbient));
 
 		ImGui::End();
 	}
@@ -743,13 +736,13 @@ namespace Sandbox3D
 
 				if (ImGui::MenuItem("Save", "Ctrl + S"))
 				{
-					if (Lamp::LevelSystem::GetCurrentLevel()->GetPath().empty())
+					if (Lamp::LevelHandler::GetCurrent()->GetPath().empty())
 					{
 						SaveLevelAs();
 					}
 					else
 					{
-						Lamp::LevelSystem::SaveLevel(Lamp::LevelSystem::GetCurrentLevel());
+						Lamp::LevelHandler::SaveCurrent();
 					}
 				}
 

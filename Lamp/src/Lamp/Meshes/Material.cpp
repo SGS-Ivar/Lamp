@@ -4,7 +4,7 @@
 #include "Lamp/Objects/Entity/Base/EntityManager.h"
 #include "Lamp/Objects/Entity/BaseComponents/LightComponent.h"
 
-#include "Lamp/Level/LevelSystem.h"
+#include "Lamp/Level/LevelHandler.h"
 
 namespace Lamp
 {
@@ -20,7 +20,7 @@ namespace Lamp
 			m_pShader->UploadFloat3("u_DirectionalLight.direction", g_pEnv->DirLight.Direction);
 			m_pShader->UploadFloat3("u_DirectionalLight.position", g_pEnv->DirLight.Position);
 			
-			m_pShader->UploadFloat3("u_Environment.globalAmbient", LevelSystem::GetEnvironment().GlobalAmbient);
+			m_pShader->UploadFloat3("u_Environment.globalAmbient", LevelHandler::GetCurrent()->GetEnvironment().GlobalAmbient);
 
 			int i = 0;
 			//Point lights

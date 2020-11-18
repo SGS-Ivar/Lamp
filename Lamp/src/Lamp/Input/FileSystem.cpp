@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "Lamp/Core/Application.h"
 
-#include "Lamp/Level/LevelSystem.h"
+#include "Lamp/Level/Levelhandler.h"
 #include "Lamp/Event/ApplicationEvent.h"
 #include <ShObjIdl.h>
 #include <locale>
@@ -184,8 +184,8 @@ namespace Lamp
 
 						if (f.GetFileType() == FileType::Level)
 						{
-							Lamp::LevelSystem::SaveLevel("engine/levels/" + Lamp::LevelSystem::GetCurrentLevel()->GetName() + ".level", Lamp::LevelSystem::GetCurrentLevel());
-							LevelSystem::LoadLevel("engine/levels/" + f.GetPath());
+							Lamp::LevelHandler::SaveCurrent();
+							Lamp::LevelHandler::Load("assets/levels/" + f.GetPath());
 						}
 					}
 				}

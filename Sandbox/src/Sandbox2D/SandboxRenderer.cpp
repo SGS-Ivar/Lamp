@@ -59,7 +59,7 @@ namespace Sandbox2D
 			{
 				if (ImGui::MenuItem("Save Level"))
 				{
-					Lamp::LevelSystem::SaveLevel("engine/levels/" + Lamp::LevelSystem::GetCurrentLevel()->GetName() + ".level", Lamp::LevelSystem::GetCurrentLevel());
+					Lamp::LevelHandler::SaveCurrent();
 				}
 
 				ImGui::EndMenu();

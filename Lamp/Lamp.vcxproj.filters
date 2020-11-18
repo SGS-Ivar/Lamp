@@ -204,9 +204,6 @@
     <ClInclude Include="src\Lamp\Level\Level.h">
       <Filter>src\Lamp\Level</Filter>
     </ClInclude>
-    <ClInclude Include="src\Lamp\Level\LevelSystem.h">
-      <Filter>src\Lamp\Level</Filter>
-    </ClInclude>
     <ClInclude Include="src\Lamp\Meshes\GeometrySystem.h">
       <Filter>src\Lamp\Meshes</Filter>
     </ClInclude>
@@ -1497,6 +1494,9 @@
     <ClInclude Include="vendor\stb_image\stb\stb_image.h">
       <Filter>vendor\stb_image\stb</Filter>
     </ClInclude>
+    <ClInclude Include="src\Lamp\Level\LevelDeserializer.h" />
+    <ClInclude Include="src\Lamp\Level\LevelSerializer.h" />
+    <ClInclude Include="src\Lamp\Level\LevelHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Lamp\Audio\AudioEngine.cpp">
@@ -1531,9 +1531,6 @@
     </ClCompile>
     <ClCompile Include="src\Lamp\Layer\LayerStack.cpp">
       <Filter>src\Lamp\Layer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Lamp\Level\LevelSystem.cpp">
-      <Filter>src\Lamp\Level</Filter>
     </ClCompile>
     <ClCompile Include="src\Lamp\Meshes\GeometrySystem.cpp">
       <Filter>src\Lamp\Meshes</Filter>
@@ -1697,5 +1694,8 @@
     <ClCompile Include="vendor\stb_image\stb\stb_image.cpp">
       <Filter>vendor\stb_image\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\Lamp\Level\LevelDeserializer.cpp" />
+    <ClCompile Include="src\Lamp\Level\LevelSerializer.cpp" />
+    <ClCompile Include="src\Lamp\Level\LevelHandler.cpp" />
   </ItemGroup>
 </Project>

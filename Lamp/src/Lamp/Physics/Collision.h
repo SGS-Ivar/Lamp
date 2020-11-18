@@ -3,7 +3,7 @@
 #include "Components/ConvexPolygonCollider.h"
 #include "Lamp/Objects/Entity/Base/Entity.h"
 
-#include "Lamp/Level/LevelSystem.h"
+#include "Lamp/Level/LevelHandler.h"
 #include "Lamp/Event/EntityEvent.h"
 
 namespace Lamp
@@ -76,13 +76,13 @@ namespace Lamp
 
 		static void CheckCollisions()
 		{
-			for (size_t m = 0; m < LevelSystem::GetCurrentLevel()->GetEntityManager()->GetEntities().size(); m++)
+			for (size_t m = 0; m < LevelHandler::GetCurrent()->GetEntityManager()->GetEntities().size(); m++)
 			{
-				for (size_t n = m + 1; n < LevelSystem::GetCurrentLevel()->GetEntityManager()->GetEntities().size(); n++)
+				for (size_t n = m + 1; n < LevelHandler::GetCurrent()->GetEntityManager()->GetEntities().size(); n++)
 				{
-					if (auto pCollA = LevelSystem::GetCurrentLevel()->GetEntityManager()->GetEntities()[m]->GetComponent<ConvexPolygonColliderComponent>())
+					if (auto pCollA = LevelHandler::GetCurrent()->GetEntityManager()->GetEntities()[m]->GetComponent<ConvexPolygonColliderComponent>())
 					{
-						if (auto pCollB = LevelSystem::GetCurrentLevel()->GetEntityManager()->GetEntities()[n]->GetComponent<ConvexPolygonColliderComponent>())
+						if (auto pCollB = LevelHandler::GetCurrent()->GetEntityManager()->GetEntities()[n]->GetComponent<ConvexPolygonColliderComponent>())
 						{
 							std::pair<bool, float> pair;
 							pair = SAT(pCollA, pCollB);

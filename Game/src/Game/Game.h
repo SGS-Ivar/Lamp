@@ -2,7 +2,7 @@
 
 #include <Lamp/Physics/Collision.h>
 #include <Lamp/Objects/Brushes/BrushManager.h>
-#include <Lamp/Level/LevelSystem.h>
+#include <Lamp/Level/LevelHandler.h>
 #include <Lamp/Event/ApplicationEvent.h>
 
 class Game : public Lamp::GameBase

@@ -5,7 +5,7 @@
 #include "Lamp/Rendering/Renderer3D.h"
 #include <Lamp/Physics/Collision.h>
 #include <Lamp/Objects/Brushes/BrushManager.h>
-#include <Lamp/Level/LevelSystem.h>
+#include <Lamp/Level/LevelHandler.h>
 #include <Lamp/Event/ApplicationEvent.h>
 
 #include <Lamp/Physics/Colliders/BoundingSphere.h>
@@ -105,14 +105,14 @@ namespace Sandbox3D
 				}
 				else if (control && !shift)
 				{
-					if (LevelSystem::GetCurrentLevel()->GetPath().empty())
+					if (LevelHandler::GetCurrent()->GetPath().empty())
 					{
 						SaveLevelAs();
 						break;
 					}
 					else 
 					{
-						LevelSystem::SaveLevel(LevelSystem::GetCurrentLevel());
+						LevelHandler::SaveCurrent();
 					}
 				}
 				break;

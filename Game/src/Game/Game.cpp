@@ -10,7 +10,7 @@
 
 void Game::OnStart()
 {
-	auto tempLevel = Lamp::LevelSystem::LoadLevel("assets/levels/Level.level");
+	auto tempLevel = Lamp::LevelHandler::Load("assets/levels/Level.level");
 
 	{
 		Lamp::Entity* ent = Lamp::Entity::Create();

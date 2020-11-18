@@ -10,7 +10,7 @@ namespace Sandbox3D
 		std::string filepath = Lamp::FileDialogs::SaveFile("Lamp Level (*.level)\0*.level\0");
 		if (!filepath.empty())
 		{
-			Lamp::LevelSystem::SaveLevel(filepath, Lamp::LevelSystem::GetCurrentLevel());
+			Lamp::LevelHandler::Save(Lamp::LevelHandler::GetCurrent(), filepath);
 		}
 	}
 
@@ -19,20 +19,20 @@ namespace Sandbox3D
 		std::string filepath = Lamp::FileDialogs::OpenFile("Lamp Level (*.level)\0*.level\0");
 		if (!filepath.empty())
 		{
-			Lamp::LevelSystem::LoadLevel(filepath);
+			Lamp::LevelHandler::Load(filepath);
 		}
 		m_pSelectedObject = nullptr;
 	}
 
 	void Sandbox3D::NewLevel()
 	{
-		if (!Lamp::LevelSystem::GetCurrentLevel()->GetPath().empty())
+		if (!Lamp::LevelHandler::GetCurrent()->GetPath().empty())
 		{
-			Lamp::LevelSystem::SaveLevel(Lamp::LevelSystem::GetCurrentLevel());
+			Lamp::LevelHandler::SaveCurrent();
 		}
 
 		Ref<Lamp::Level> pLevel = CreateRef<Lamp::Level>("New Level", "");
-		Lamp::LevelSystem::SetCurrentLevel(pLevel);
+		Lamp::LevelHandler::SetCurrent(pLevel);
 
 		Lamp::ObjectLayerManager::SetCurrentManager(pLevel->GetObjectLayerManager());
 		Lamp::EntityManager::SetCurrentManager(pLevel->GetEntityManager());
