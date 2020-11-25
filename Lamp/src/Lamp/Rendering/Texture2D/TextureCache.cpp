@@ -2,6 +2,8 @@
 #include "TextureCache.h"
 
 #include "TextureLoader.h"
+#include <thread>
+#include <future>
 
 namespace Lamp
 {
@@ -12,10 +14,15 @@ namespace Lamp
 		auto mit = m_TextureCache.find(path);
 		if (mit == m_TextureCache.end())
 		{
-			auto tex = TextureLoader::LoadTexture(path);
-			m_TextureCache.insert(std::make_pair(path, tex));
 
-			return tex;
+			std::promise<std::tuple<uint32_t, uint32_t, uint32_t>> p;
+			auto tex = p.get_future();
+
+			std::thread t(&TextureLoader::LoadTexture, std::move(p), path);
+
+			m_TextureCache.insert(std::make_pair(path, tex.get()));
+
+			return tex.get();
 		}
 
 		return mit->second;

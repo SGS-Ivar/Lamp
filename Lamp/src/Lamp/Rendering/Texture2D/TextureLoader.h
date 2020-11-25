@@ -1,10 +1,12 @@
 #pragma once
 
+#include <future>
+
 namespace Lamp
 {
 	class TextureLoader
 	{
 	public:
-		static std::tuple<uint32_t, uint32_t, uint32_t> LoadTexture(const std::string& path);
+		static void LoadTexture(std::promise<TextureData>&& p, const std::string& path);
 	};
 }

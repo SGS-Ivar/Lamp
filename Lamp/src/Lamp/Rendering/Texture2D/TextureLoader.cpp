@@ -6,7 +6,7 @@
 
 namespace Lamp
 {
-	std::tuple<uint32_t, uint32_t, uint32_t> TextureLoader::LoadTexture(const std::string& path)
+	void TextureLoader::LoadTexture(std::promise<TextureData>&& p, const std::string& path)
 	{
 		uint32_t texture;
 
@@ -49,6 +49,6 @@ namespace Lamp
 		}
 		stbi_image_free(data);
 
-		return std::tuple(texture, width, height);
+		p.set_value(std::tuple(texture, width, height));
 	}
 }

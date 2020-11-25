@@ -2,6 +2,13 @@
 
 namespace Lamp
 {
+	struct TextureData
+	{
+		unsigned char* pData;
+		uint32_t width;
+		uint32_t height;
+	};
+
 	class TextureCache
 	{
 	public:
