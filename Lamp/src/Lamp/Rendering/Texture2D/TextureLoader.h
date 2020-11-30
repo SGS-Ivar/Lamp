@@ -1,12 +1,12 @@
 #pragma once
 
-#include <future>
-
 namespace Lamp
 {
+	struct TextureData;
+
 	class TextureLoader
 	{
 	public:
-		static void LoadTexture(std::promise<TextureData>&& p, const std::string& path);
+		static TextureData& LoadTexture(const std::string& path);
 	};
 }

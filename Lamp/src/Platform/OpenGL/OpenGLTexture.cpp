@@ -22,15 +22,9 @@ namespace Lamp
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	}
 
-	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
-	{
-		m_Path = path;
-
-		auto tex = TextureCache::GetTexture(path);
-		m_RendererID = std::get<0>(tex);
-		m_Width = std::get<1>(tex);
-		m_Height = std::get<2>(tex);
-	}
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height, uint32_t id, GLenum internal, GLenum data)
+		: m_Width(width), m_Height(height), m_RendererID(id), m_InternalFormat(internal), m_DataFormat(data)
+	{}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{

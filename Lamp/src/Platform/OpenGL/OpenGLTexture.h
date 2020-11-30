@@ -9,6 +9,7 @@ namespace Lamp
 	public:
 		OpenGLTexture2D(const std::string& path);
 		OpenGLTexture2D(uint32_t width, uint32_t height);
+		OpenGLTexture2D(uint32_t width, uint32_t height, uint32_t id, GLenum internal, GLenum data);
 
 		virtual void Bind(uint32_t slot = 0) const override;
 

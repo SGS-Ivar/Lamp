@@ -4,6 +4,8 @@
 #include "Lamp/Rendering/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
+#include "TextureCache.h"
+
 namespace Lamp
 {
 	Ref<Texture2D> Texture2D::Create(uint32_t width, uint32_t height)
@@ -22,7 +24,7 @@ namespace Lamp
 		switch (Renderer::GetAPI())
 		{
 			case RendererAPI::API::None: LP_CORE_ASSERT(false, "None is not supported!"); return nullptr;
-			case RendererAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(path);
+			case RendererAPI::API::OpenGL: return std::dynamic_pointer_cast<OpenGLTexture2D>(TextureCache::GetTexture(path));
 		}
 
 		return nullptr;

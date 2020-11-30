@@ -1498,7 +1498,7 @@
       <Filter>vendor\stb_image\stb</Filter>
     </ClInclude>
     <ClInclude Include="src\Lamp\Assets\AssetManager.h" />
-    <ClInclude Include="src\Lamp\Assets\AssetLoader.h" />
+    <ClInclude Include="src\Lamp\Utility\ThreadSafeQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Lamp\Audio\AudioEngine.cpp">

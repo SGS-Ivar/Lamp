@@ -3,11 +3,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Lamp/Rendering/LightBase.h"
+#include "Lamp/Assets/AssetManager.h"
 
 struct GlobalEnvironment
 {
 	Lamp::DirectionalLight DirLight;
 	bool ShouldRenderBB = false;
+
+	Lamp::AssetManager* pAssetManager;
 };
 
 struct SAABB

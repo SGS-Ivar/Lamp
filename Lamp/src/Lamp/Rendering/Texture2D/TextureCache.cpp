@@ -5,26 +5,79 @@
 #include <thread>
 #include <future>
 
+#include <glad/glad.h>
+#include "Lamp/Assets/AssetManager.h"
+
+//Temp
+#include "Platform/OpenGL/OpenGLTexture.h"
+
 namespace Lamp
 {
-	std::map<std::string, std::tuple<uint32_t, uint32_t, uint32_t>> TextureCache::m_TextureCache;
+	std::vector<Ref<Texture2D>> TextureCache::m_TextureCache;
 
-	const std::tuple<uint32_t, uint32_t, uint32_t> TextureCache::GetTexture(const std::string& path)
+	const Ref<Texture2D>& TextureCache::GetTexture(const std::string& path)
 	{
-		auto mit = m_TextureCache.find(path);
-		if (mit == m_TextureCache.end())
+		for (auto it = m_TextureCache.begin(); it != m_TextureCache.end(); it++)
 		{
-
-			std::promise<std::tuple<uint32_t, uint32_t, uint32_t>> p;
-			auto tex = p.get_future();
-
-			std::thread t(&TextureLoader::LoadTexture, std::move(p), path);
-
-			m_TextureCache.insert(std::make_pair(path, tex.get()));
-
-			return tex.get();
+			if (it->get()->GetPath() == path)
+			{
+				return *it;
+			}
 		}
 
-		return mit->second;
+		g_pEnv->pAssetManager->LoadAsset(path, AssetType::Texture);
+
+		for (auto it = m_TextureCache.begin(); it != m_TextureCache.end(); it++)
+		{
+			if (it->get()->GetPath() == path)
+			{
+				return *it;
+			}
+		}
+
+		return nullptr;
+	}
+
+	void TextureCache::GenerateTexture(TextureData& data)
+	{
+		uint32_t texture;
+
+		//Generate texture and bind it to GL_TEXTURE_2D
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		//Set texture wrapping
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		//Set filtering
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		GLenum dataFormat = 0, internalFormat = 0;
+		if (data.channels == 4)
+		{
+			internalFormat = GL_RGBA8;
+			dataFormat = GL_RGBA;
+		}
+		else if (data.channels == 3)
+		{
+			internalFormat = GL_RGB8;
+			dataFormat = GL_RGB;
+		}
+
+		if (data.pData)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, data.width, data.height, 0, dataFormat, GL_UNSIGNED_BYTE, data.pData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+		}
+		else
+		{
+			LP_CORE_WARN("Failed to load texture!");
+		}
+
+		Ref<OpenGLTexture2D> tex = CreateRef<OpenGLTexture2D>(data.width, data.height, texture, internalFormat, dataFormat);
+		
+		m_TextureCache.push_back(tex);
 	}
 }

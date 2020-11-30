@@ -1,20 +1,19 @@
 #pragma once
 
+#include <vector>
+
 namespace Lamp
 {
-	struct TextureData
-	{
-		unsigned char* pData;
-		uint32_t width;
-		uint32_t height;
-	};
+	class Texture2D;
+	struct TextureData;
 
 	class TextureCache
 	{
 	public:
-		static const std::tuple<uint32_t, uint32_t, uint32_t> GetTexture(const std::string& path);
+		static const Ref<Texture2D>& GetTexture(const std::string& path);
+		static void GenerateTexture(TextureData& data);
 
 	private:
-		static std::map<std::string, std::tuple<uint32_t, uint32_t, uint32_t>> m_TextureCache;
+		static std::vector<Ref<Texture2D>> m_TextureCache;
 	};
 }

@@ -9,6 +9,7 @@
 #include "Lamp/Audio/AudioEngine.h"
 
 #include "CoreLogger.h"
+#include "Lamp/Assets/AssetManager.h"
 
 GlobalEnvironment* g_pEnv;
 
@@ -22,6 +23,8 @@ namespace Lamp
 	{
 		s_pInstance = this;
 		g_pEnv = new GlobalEnvironment();
+		g_pEnv->pAssetManager = new AssetManager();
+		g_pEnv->pAssetManager->Initialize();
 
 		//Create the window
 		WindowProps props;
@@ -46,6 +49,7 @@ namespace Lamp
 		AudioEngine::Shutdown();
 		Renderer::Shutdown();
 
+		delete g_pEnv->pAssetManager;
 		delete g_pEnv;
 	}
 
@@ -82,6 +86,8 @@ namespace Lamp
 			m_pImGuiLayer->End();
 			m_pWindow->Update(timestep);
 		
+			g_pEnv->pAssetManager->Update();
+
 			m_FrameTime.End();
 		}
 	}
