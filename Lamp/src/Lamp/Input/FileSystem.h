@@ -65,6 +65,7 @@ namespace Lamp
 		static void GetAllMaterialFiles(std::vector<std::string>& folders, std::vector<std::string>& files);
 		static bool ContainsFolder(const std::string& path);
 		static void PrintFoldersAndFiles(std::vector<std::string>& files, int startId = -1);
+		static void PrintFolders(std::vector<std::string>& files, int startId = -1);
 		static void PrintLevelFiles(std::vector<std::string>& files, int startID = -1);
 		static void PrintBrushes(std::vector<std::string>& files, int startID = -1);
 	};

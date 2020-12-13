@@ -29,7 +29,7 @@ namespace Sandbox3D
 	using namespace Lamp;
 
 	Sandbox3D::Sandbox3D()
-		: Layer("Sandbox3D"), m_SelectedFile(""), m_DockspaceID(0), m_pShader(nullptr), m_PerspecticeCommands(100)
+		: Layer("Sandbox3D"), m_DockspaceID(0), m_pShader(nullptr), m_PerspecticeCommands(100), m_SelectedFile("")
 	{
 		m_pGame = CreateScope<Game>();
 		m_pGame->OnStart();
@@ -38,7 +38,8 @@ namespace Sandbox3D
 		m_SandboxController = CreateRef<SandboxController>();
 		g_pEnv->ShouldRenderBB = true;
 
-		m_ModelImporter = new ModelImporter();
+		m_pModelImporter = new ModelImporter();
+		m_pAssetBrowser = new AssetBrowser();
 
 		SetupFromConfig();
 		CreateRenderPasses();
@@ -46,7 +47,8 @@ namespace Sandbox3D
 
 	Sandbox3D::~Sandbox3D()
 	{
-		delete m_ModelImporter;
+		delete m_pModelImporter;
+		delete m_pAssetBrowser;
 	}
 
 	bool Sandbox3D::OnUpdate(AppUpdateEvent& e)
@@ -55,20 +57,20 @@ namespace Sandbox3D
 		{
 			m_SandboxController->Update(e.GetTimestep());
 		}
-		else if (m_ModelImporter->GetCamera()->GetRightPressed())
+		else if (m_pModelImporter->GetCamera()->GetRightPressed())
 		{
-			m_ModelImporter->UpdateCamera(e.GetTimestep());
+			m_pModelImporter->UpdateCamera(e.GetTimestep());
 		}
 		else
 		{
 			m_SandboxController->Update(e.GetTimestep());
-			m_ModelImporter->UpdateCamera(e.GetTimestep());
+			m_pModelImporter->UpdateCamera(e.GetTimestep());
 		}
 
 		GetInput();
 
 		RenderPassManager::Get()->RenderPasses();
-		m_ModelImporter->Render();
+		m_pModelImporter->Render();
 
 		return true;
 	}
@@ -85,39 +87,40 @@ namespace Sandbox3D
 		UpdateLogTool();
 		UpdateLevelSettings();
 
-		m_ModelImporter->Update();
+		m_pModelImporter->Update();
+		m_pAssetBrowser->Update();
 	}
 
 	void Sandbox3D::OnEvent(Event& e)
 	{
 		m_pGame->OnEvent(e);
+		m_pAssetBrowser->OnEvent(e);
 
 		if (m_SandboxController->GetCameraController()->GetRightPressed())
 		{
 			m_SandboxController->OnEvent(e);
 		}
-		else if (m_ModelImporter->GetCamera()->GetRightPressed())
+		else if (m_pModelImporter->GetCamera()->GetRightPressed())
 		{
-			m_ModelImporter->OnEvent(e);
+			m_pModelImporter->OnEvent(e);
 		}
 		else
 		{
 			m_SandboxController->OnEvent(e);
-			m_ModelImporter->OnEvent(e);
+			m_pModelImporter->OnEvent(e);
 		}
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseMovedEvent>(LP_BIND_EVENT_FN(Sandbox3D::OnMouseMoved));
 		dispatcher.Dispatch<AppUpdateEvent>(LP_BIND_EVENT_FN(Sandbox3D::OnUpdate));
-		dispatcher.Dispatch<AppItemClickedEvent>(LP_BIND_EVENT_FN(Sandbox3D::OnItemClicked));
+		dispatcher.Dispatch<AppFileClickedEvent>(LP_BIND_EVENT_FN(Sandbox3D::OnItemClicked));
 		dispatcher.Dispatch<WindowCloseEvent>(LP_BIND_EVENT_FN(Sandbox3D::OnWindowClose));
 		dispatcher.Dispatch<KeyPressedEvent>(LP_BIND_EVENT_FN(Sandbox3D::OnKeyPressed));
 		dispatcher.Dispatch<ImGuiBeginEvent>(LP_BIND_EVENT_FN(Sandbox3D::OnImGuiBegin));
 	}
 
-	bool Sandbox3D::OnItemClicked(AppItemClickedEvent& e)
+	bool Sandbox3D::OnItemClicked(AppFileClickedEvent& e)
 	{
-		m_SelectedFile = e.GetFile();
 		return true;
 	}
 

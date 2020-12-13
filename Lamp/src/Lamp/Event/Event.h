@@ -14,13 +14,13 @@ namespace Lamp
 	{
 		None = 0,
 		WindowClose = 0b00000001, WindowResize = 0b00000010, WindowFocus = 0b00000011, WindowLostFocus = 0b00000100, WindowMoved = 0b00000101,
-		AppTick = 0b00000110, AppUpdate = 0b00000111, AppRender = 0b00001000, AppLog = 0b00001001, AppItemClicked = 0b00001010,
-		KeyPressed = 0b00001100, KeyReleased = 0b00001101, KeyTyped = 0b00001110,
-		MouseButtonPressed = 0b00001111, MouseButtonReleased = 0b00010000, MouseMoved = 0b00010001, MouseScrolled = 0b00010010,
-		EntityCollision = 0b00010011, EntityStoppedCollision = 0b00010100, EntityPositionChanged = 0b00010101, ImGuiBegin = 0b0010110,
+		AppTick = 0b00000110, AppUpdate = 0b00000111, AppRender = 0b00001000, AppLog = 0b00001001, AppFileClicked = 0b00001010, AppFolderClicked = 0b00001100,
+		KeyPressed = 0b00001101, KeyReleased = 0b00001110, KeyTyped = 0b00001111,
+		MouseButtonPressed = 0b00010000, MouseButtonReleased = 0b00010001, MouseMoved = 0b00010010, MouseScrolled = 0b00010011,
+		EntityCollision = 0b00010100, EntityStoppedCollision = 0b00010101, EntityPositionChanged = 0b00010110, ImGuiBegin = 0b00101111,
 
 		All = WindowClose | WindowResize | WindowFocus | WindowLostFocus | WindowMoved |
-		AppTick | AppUpdate | AppRender | AppLog | AppItemClicked |
+		AppTick | AppUpdate | AppRender | AppLog | AppFileClicked | AppFolderClicked |
 		KeyPressed | KeyReleased | KeyTyped |
 		MouseButtonPressed | MouseButtonReleased | MouseMoved | MouseScrolled |
 		EntityCollision | EntityStoppedCollision | EntityPositionChanged | ImGuiBegin

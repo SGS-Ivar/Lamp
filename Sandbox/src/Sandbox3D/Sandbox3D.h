@@ -12,6 +12,7 @@
 #include <Lamp/Event/MouseEvent.h>
 #include "SandboxController.h"
 #include "CommandStack.h"
+#include "Windows/AssetBrowser.h"
 
 #include <Game/Game.h>
 
@@ -39,7 +40,7 @@ namespace Sandbox3D
 		void SetupFromConfig();
 
 		bool OnMouseMoved(Lamp::MouseMovedEvent& e);
-		bool OnItemClicked(Lamp::AppItemClickedEvent& e);
+		bool OnItemClicked(Lamp::AppFileClickedEvent& e);
 		bool OnWindowClose(Lamp::WindowCloseEvent& e);
 		bool OnKeyPressed(Lamp::KeyPressedEvent& e);
 		bool OnImGuiBegin(Lamp::ImGuiBeginEvent& e);
@@ -62,10 +63,6 @@ namespace Sandbox3D
 		void Undo();
 		void Redo();
 
-		//Model importer
-		void RenderImporter();
-
-
 	private:
 		Scope<Game> m_pGame;
 		Ref<SandboxController> m_SandboxController;
@@ -84,9 +81,7 @@ namespace Sandbox3D
 		bool m_HaveUndone = false;
 		
 		//Asset browser
-		Lamp::File m_SelectedFile;
-		int m_CurrSample = -1;
-		bool m_AssetBrowserOpen = true;
+		AssetBrowser* m_pAssetBrowser;
 
 		//Inspector
 		bool m_MousePressed = false;
@@ -100,7 +95,7 @@ namespace Sandbox3D
 		Ref<Lamp::Shader> m_pShader;
 
 		//Model importer
-		ModelImporter* m_ModelImporter;
+		ModelImporter* m_pModelImporter;
 
 		//Layers
 		bool m_LayerViewOpen = true;
@@ -114,6 +109,7 @@ namespace Sandbox3D
 
 		//Create
 		bool m_CreateToolOpen = true;
+		Lamp::File m_SelectedFile;
 
 		//Logging
 		bool m_LogToolOpen = false;

@@ -108,10 +108,10 @@ namespace Lamp
 		std::string m_Severity;
 	};
 
-	class AppItemClickedEvent : public Event
+	class AppFileClickedEvent : public Event
 	{
 	public:
-		AppItemClickedEvent(const File& file)
+		AppFileClickedEvent(const File& file)
 			: m_File(file)
 		{}
 
@@ -120,14 +120,37 @@ namespace Lamp
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "AppItemClickedEvent: " << m_File.GetPath() << std::endl;
+			ss << "AppFileClickedEvent: " << m_File.GetPath() << std::endl;
 			return ss.str();
 		}
 
-		EVENT_CLASS_TYPE(AppItemClicked);
+		EVENT_CLASS_TYPE(AppFileClicked);
 		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 	private:
 		File m_File;
+	};
+
+	class AppFolderClickedEvent : public Event
+	{
+	public:
+		AppFolderClickedEvent(const std::string& path)
+			: m_Path(path)
+		{}
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "AppFolderClickedEvent: " << m_Path << std::endl;
+			return ss.str();
+		}
+
+		inline const std::string& GetPath() { return m_Path; }
+
+		EVENT_CLASS_TYPE(AppFolderClicked);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+
+	private:
+		std::string m_Path;
 	};
 
 	class ImGuiBeginEvent : public Event

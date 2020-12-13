@@ -174,7 +174,7 @@ namespace Lamp
 					if (ImGui::IsItemClicked())
 					{
 						File f(files[j]);
-						AppItemClickedEvent e(f);
+						AppFileClickedEvent e(f);
 						Application::Get().OnEvent(e);
 					}
 				}
@@ -183,6 +183,80 @@ namespace Lamp
 				ImGui::TreePop();
 			}
 		}
+	}
+
+	void FileSystem::PrintFolders(std::vector<std::string>& folders, int startId)
+	{
+		if (folders.size() == 0)
+		{
+			return;
+		}
+
+		static int selection_mask = (1 << 2);
+		int node_clicked = -1;
+
+		ImGui::PushStyleVar(ImGuiStyleVar_IndentSpacing, ImGui::GetFontSize() * 3);
+		for (int i = 0; i < folders.size(); i++)
+		{
+			std::string s = folders[i];
+			std::size_t pos = s.find_last_of("/\\");
+			s = s.substr(pos + 1);
+
+			bool hasFolders = GetFolders(folders[i]).size() > 0;
+			startId++;
+
+			ImGuiTreeNodeFlags nodeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;
+
+			if (!hasFolders)
+			{
+				nodeFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+			}
+
+			if (selection_mask & (1 << i))
+			{
+				nodeFlags |= ImGuiTreeNodeFlags_Selected;
+			}
+
+			if (hasFolders)
+			{
+				if (ImGui::TreeNodeEx((void*)(intptr_t)startId, nodeFlags, s.c_str()))
+				{
+					if (ImGui::IsItemClicked())
+					{
+						AppFolderClickedEvent e(folders[i]);
+						Application::Get().OnEvent(e);
+
+						node_clicked = i;
+					}
+					std::string s = folders[i].c_str();
+
+					PrintFolders(Lamp::FileSystem::GetFolders(folders[i]), startId);
+					ImGui::TreePop();
+				}
+			}
+			else
+			{
+				startId++;
+				ImGui::TreeNodeEx((void*)(intptr_t)startId, nodeFlags, s.c_str());
+				if (ImGui::IsItemClicked())
+				{
+					AppFolderClickedEvent e(folders[i]);
+					Application::Get().OnEvent(e);
+
+					node_clicked = i;
+				}
+			}
+		}
+		if (node_clicked != -1)
+		{
+			if (ImGui::GetIO().KeyCtrl)
+				selection_mask ^= (1 << node_clicked);
+			else
+			{
+				selection_mask = (1 << node_clicked);
+			}
+		}
+		ImGui::PopStyleVar();
 	}
 
 	//Prints all the available folders and files (CALL ONLY WHEN IMGUI CONTEXT EXISTS OR IT WILL CRASH!)
@@ -265,7 +339,7 @@ namespace Lamp
 				if (ImGui::IsItemClicked())
 				{
 					File f(files[j]);
-					AppItemClickedEvent e(f);
+					AppFileClickedEvent e(f);
 					Application::Get().OnEvent(e);
 				}
 			}
