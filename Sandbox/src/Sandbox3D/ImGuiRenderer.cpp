@@ -739,7 +739,7 @@ namespace Sandbox3D
 			{
 				ImGui::MenuItem("Import Model", NULL, &m_pModelImporter->GetIsOpen());
 				ImGui::MenuItem("Properties", NULL, &m_InspectiorOpen);
-				ImGui::MenuItem("Asset browser", NULL, &m_pAssetBrowser->GetIsOpen());
+				ImGui::MenuItem("Asset browser", NULL, &m_pAssetBrowsers[0]->GetIsOpen());
 				ImGui::MenuItem("Layer view", NULL, &m_LayerViewOpen);
 				ImGui::MenuItem("Log", NULL, &m_LogToolOpen);
 				ImGui::MenuItem("Level Settings", NULL, &m_LevelSettingsOpen);

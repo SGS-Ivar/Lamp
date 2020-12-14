@@ -8,7 +8,8 @@
 
 namespace Sandbox3D
 {
-	AssetBrowser::AssetBrowser()
+	AssetBrowser::AssetBrowser(uint32_t id)
+		: m_Id(id)
 	{
 		m_Open = true;
 	
@@ -26,13 +27,13 @@ namespace Sandbox3D
 		static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.f, 0.f));
-		ImGui::Begin("Asset Browser", &m_Open);
+		ImGui::Begin(std::string("Asset Browser##" + std::to_string(m_Id)).c_str(), &m_Open);
 		ImGui::PopStyleVar();
 
 		ImGuiIO& io = ImGui::GetIO();
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)
 		{
-			ImGuiID dockspaceId = ImGui::GetID("assetbrowser");
+			ImGuiID dockspaceId = ImGui::GetID(std::string("assetbrowser" + std::to_string(m_Id)).c_str());
 			ImGui::DockSpace(dockspaceId, ImVec2(0.f, 0.f), dockspace_flags);
 		}
 		ImGui::End();
@@ -49,7 +50,7 @@ namespace Sandbox3D
 
 	void AssetBrowser::UpdateFinder()
 	{
-		ImGui::Begin("Finder");
+		ImGui::Begin(std::string("Finder##" + std::to_string(m_Id)).c_str());
 		{
 			static std::string search = "";
 			ImGui::InputText("Search", &search);
@@ -77,7 +78,7 @@ namespace Sandbox3D
 			}
 		}
 
-		ImGui::Begin("Viewer");
+		ImGui::Begin(std::string("Viewer##" + std::to_string(m_Id)).c_str());
 
 		for (int i = 0; i < foldersAndFiles.size(); i++)
 		{
@@ -96,10 +97,29 @@ namespace Sandbox3D
 			}
 
 			ImGui::Image((void*)(uint64_t)texId, ImVec2{ 64, 64 });
+			ImGui::SameLine();
+		}
 
-			//ImGui::SetCursorPos(cursorPos);
+		for (int i = 0; i < foldersAndFiles.size(); i++)
+		{
+			std::string name = "";
+
+			if (foldersAndFiles[i].find('.') == std::string::npos)
+			{
+				name = foldersAndFiles[i].substr(foldersAndFiles[i].find_last_of('\\') + 1, foldersAndFiles[i].size() - 1);
+			}
+			else
+			{
+				name = foldersAndFiles[i].substr(foldersAndFiles[i].find_last_of('\\') + 1, foldersAndFiles[i].find_last_of('.'));
+			}
+
+			ImVec2 windowPadding = ImGui::GetStyle().WindowPadding;
+			ImVec2 itemSpacing = ImGui::GetStyle().ItemSpacing;
+
+			ImVec2 cursorPos = ImVec2{ windowPadding.x + i * m_IconSize.x + i * itemSpacing.x + i, windowPadding.y + m_IconSize.y + 15.f };
+			ImGui::SetCursorPos(cursorPos);
+
 			ImGui::Text(name.c_str());
-
 		}
 
 		ImGui::End();

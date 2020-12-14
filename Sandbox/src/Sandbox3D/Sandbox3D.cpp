@@ -39,7 +39,7 @@ namespace Sandbox3D
 		g_pEnv->ShouldRenderBB = true;
 
 		m_pModelImporter = new ModelImporter();
-		m_pAssetBrowser = new AssetBrowser();
+		m_pAssetBrowsers.push_back(new AssetBrowser(m_pAssetBrowsers.size()));
 
 		SetupFromConfig();
 		CreateRenderPasses();
@@ -48,7 +48,13 @@ namespace Sandbox3D
 	Sandbox3D::~Sandbox3D()
 	{
 		delete m_pModelImporter;
-		delete m_pAssetBrowser;
+		
+		for (int i = 0; i < m_pAssetBrowsers.size(); i++)
+		{
+			delete m_pAssetBrowsers[i];
+		}
+
+		m_pAssetBrowsers.clear();
 	}
 
 	bool Sandbox3D::OnUpdate(AppUpdateEvent& e)
@@ -88,13 +94,13 @@ namespace Sandbox3D
 		UpdateLevelSettings();
 
 		m_pModelImporter->Update();
-		m_pAssetBrowser->Update();
+		m_pAssetBrowsers[0]->Update();
 	}
 
 	void Sandbox3D::OnEvent(Event& e)
 	{
 		m_pGame->OnEvent(e);
-		m_pAssetBrowser->OnEvent(e);
+		m_pAssetBrowsers[0]->OnEvent(e);
 
 		if (m_SandboxController->GetCameraController()->GetRightPressed())
 		{

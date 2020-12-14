@@ -9,7 +9,7 @@ namespace Sandbox3D
 	class AssetBrowser
 	{
 	public:
-		AssetBrowser();
+		AssetBrowser(uint32_t id);
 		void Update();
 
 		inline bool& GetIsOpen() { return m_Open; }
@@ -28,5 +28,10 @@ namespace Sandbox3D
 		Ref<Lamp::Texture2D> m_FileTexture;
 		
 		std::string m_SelectedFolderPath = "";
+		uint32_t m_Id;
+
+		//Settings
+		glm::vec2 m_IconSize = { 64.f, 64.f };
+
 	};
 }

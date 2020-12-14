@@ -81,7 +81,7 @@ namespace Sandbox3D
 		bool m_HaveUndone = false;
 		
 		//Asset browser
-		AssetBrowser* m_pAssetBrowser;
+		std::vector<AssetBrowser*> m_pAssetBrowsers;
 
 		//Inspector
 		bool m_MousePressed = false;
