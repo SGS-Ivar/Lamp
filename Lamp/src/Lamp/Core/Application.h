@@ -13,6 +13,8 @@
 
 namespace Lamp
 {
+	class PhysicsEngine;
+
 	class Application
 	{
 	public:
@@ -38,6 +40,7 @@ namespace Lamp
 
 	private:
 		std::unique_ptr<Window> m_pWindow;
+		PhysicsEngine* m_pPhysicsEngine;
 		ImGuiLayer* m_pImGuiLayer;
 		LayerStack m_LayerStack;
 

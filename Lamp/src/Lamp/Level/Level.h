@@ -8,6 +8,11 @@
 #include "Lamp/Objects/ObjectLayer.h"
 #include "Lamp/Physics/PhysicsEngine.h"
 
+namespace physx
+{
+	class PxScene;
+}
+
 namespace Lamp
 {
 	struct LevelEnvironment
@@ -28,7 +33,8 @@ namespace Lamp
 			m_ObjectLayerManager = CreateRef<ObjectLayerManager>();
 			m_BrushManager = CreateRef<BrushManager>();
 			m_EntityManager = CreateRef<EntityManager>();
-			m_PhysicsEngine = CreateRef<PhysicsEngine>();
+
+			m_pPhysicsScene = PhysicsEngine::Get()->CreatePhysicsScene({ 0.f, 9.81f, 0.f });
 
 			ObjectLayer layer(0, "Main", false);
 			m_ObjectLayerManager->AddLayer(layer);
@@ -42,7 +48,7 @@ namespace Lamp
 		inline Ref<BrushManager>& GetBrushManager() { return m_BrushManager; }
 		inline Ref<EntityManager>& GetEntityManager() { return m_EntityManager; }
 		inline Ref<ObjectLayerManager>& GetObjectLayerManager() { return m_ObjectLayerManager; }
-		inline Ref<PhysicsEngine>& GetPhysicsEngine() { return m_PhysicsEngine; }
+		inline physx::PxScene* GetPhysicsScene() { return m_pPhysicsScene; }
 
 		inline LevelEnvironment& GetEnvironment() { return m_Environment; }
 		inline const std::string& GetName() { return m_Name; }
@@ -54,9 +60,9 @@ namespace Lamp
 		std::string m_Path;
 		Ref<BrushManager> m_BrushManager;
 		Ref<EntityManager> m_EntityManager;
+		physx::PxScene* m_pPhysicsScene;
 
 		Ref<ObjectLayerManager> m_ObjectLayerManager;
-		Ref<PhysicsEngine> m_PhysicsEngine;
 		LevelEnvironment m_Environment;
 	};
 }

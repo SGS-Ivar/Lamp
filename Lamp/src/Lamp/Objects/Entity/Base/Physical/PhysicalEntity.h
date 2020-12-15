@@ -5,6 +5,8 @@
 #include "Lamp/Physics/Colliders/Collider.h"
 #include "Lamp/Physics/Colliders/BoundingSphere.h"
 
+#include <PhysX/PxPhysicsAPI.h>
+
 namespace Lamp
 {
 	class Brush;
@@ -13,14 +15,10 @@ namespace Lamp
 	class PhysicalEntity
 	{
 	public:
-		PhysicalEntity()
-			: m_IsPhysicalized(false), m_LastPosition({0.f, 0.f, 0.f}),
-			m_Mass(0.f), m_Velocity(0.f), m_Collider(nullptr)
-		{
-		}
-		~PhysicalEntity() {}
+		PhysicalEntity();
+		~PhysicalEntity();
 
-		void Integrate(float delta);
+		void UpdateTransform(const physx::PxTransform& trans = physx::PxTransform());
 
 		//Getting
 		inline const glm::vec3& GetVelocity() const { return m_Velocity; }
@@ -39,6 +37,8 @@ namespace Lamp
 
 	protected:
 		Ref<Collider> m_Collider;
+		physx::PxRigidActor* m_pPxActor;
+		physx::PxGeometry* m_pGeometry;
 
 		bool m_IsPhysicalized = true;
 		bool m_IsActive = true;

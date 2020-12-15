@@ -294,7 +294,7 @@
     <ClInclude Include="src\Lamp\Physics\Components\ConvexPolygonCollider.h">
       <Filter>src\Lamp\Physics\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\Lamp\Physics\Physics.h">
+    <ClInclude Include="src\Lamp\Physics\PhysicsDefaults.h">
       <Filter>src\Lamp\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\Lamp\Physics\PhysicsEngine.h">
@@ -380,6 +380,9 @@
     </ClInclude>
     <ClInclude Include="src\Lamp\Rendering\Vertices\VertexBuffer.h">
       <Filter>src\Lamp\Rendering\Vertices</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lamp\Utility\Convert.h">
+      <Filter>src\Lamp\Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\Lamp\Utility\PlatformUtility.h">
       <Filter>src\Lamp\Utility</Filter>
@@ -1616,9 +1619,6 @@
     <ClCompile Include="src\Lamp\Physics\Components\ConvexPolygonCollider.cpp">
       <Filter>src\Lamp\Physics\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\Lamp\Physics\Physics.cpp">
-      <Filter>src\Lamp\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="src\Lamp\Physics\PhysicsEngine.cpp">
       <Filter>src\Lamp\Physics</Filter>
     </ClCompile>
@@ -1718,5 +1718,6 @@
     <ClCompile Include="vendor\stb_image\stb\stb_image.cpp">
       <Filter>vendor\stb_image\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\Lamp\Utility\Convert.cpp" />
   </ItemGroup>
 </Project>

@@ -55,13 +55,24 @@ project "Lamp"
 		"%{prj.name}/vendor/rapidxml",
 		"%{prj.name}/vendor/assimp/include",
 		"%{prj.name}/vendor/fmod/include",
+		"%{prj.name}/vendor/PhysX/include"
+	}
+	
+	libdirs
+	{
+		"%{prj.name}/vendor/PhysX/libs"
 	}
 	
 	links 
 	{
 		"GLFW",
 		"ImGui",
-		"Glad"
+		"Glad",
+		"PhysX_static_64.lib",
+		"PhysXCommon_static_64.lib",
+		"PhysXFoundation_static_64.lib",
+		"PhysXPvdSDK_static_64.lib",
+		"PhysXExtensions_static_64.lib"
 	}
 
 	filter "system:windows"
@@ -123,7 +134,8 @@ project "Sandbox"
 		"Lamp/vendor/assimp/include",
 		"Lamp/vendor/fmod/include",
 		"Game/src",
-		"Lamp/vendor/ImGuizmo/include"
+		"Lamp/vendor/ImGuizmo/include",
+		"Lamp/vendor/PhysX/include"
 	}
 
 	libdirs
@@ -200,6 +212,7 @@ project "Game"
 		"%{prj.name}/src",
 		"Lamp/vendor/assimp/include",
 		"Lamp/vendor/fmod/include",
+		"Lamp/vendor/PhysX/include"
 	}
 	
 	filter "system:windows"
@@ -255,7 +268,8 @@ project "GameLauncher"
 		"%{prj.name}/src",
 		"Lamp/vendor/assimp/include",
 		"Lamp/vendor/fmod/include",
-		"Game/src"
+		"Game/src",
+		"Lamp/vendor/PhysX/include"
 	}
 
 	libdirs
@@ -272,6 +286,12 @@ project "GameLauncher"
 		"assimp-vc142-mt.lib",
 		"fmodstudio_vc.lib",
 		"fmod_vc.lib"
+	}
+
+	linkoptions
+	{
+		"/WHOLEARCHIVE:Game",
+		"/WHOLEARCHIVE:Lamp"
 	}
 
 	filter "system:windows"

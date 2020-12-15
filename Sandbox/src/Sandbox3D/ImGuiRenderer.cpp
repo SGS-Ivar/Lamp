@@ -460,7 +460,7 @@ namespace Sandbox3D
 
 	void Sandbox3D::UpdateLogTool()
 	{
-		static bool autoScroll = true;
+		/*static bool autoScroll = true;
 
 		if (!m_LogToolOpen)
 		{
@@ -520,7 +520,7 @@ namespace Sandbox3D
 			ImGui::SetScrollHereY(1.f);
 		}
 		ImGui::EndChild();
-		ImGui::End();
+		ImGui::End();*/
 	}
 
 	bool Sandbox3D::DrawComponent(Lamp::EntityComponent* ptr)

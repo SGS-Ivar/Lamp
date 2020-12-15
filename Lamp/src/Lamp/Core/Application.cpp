@@ -9,11 +9,14 @@
 #include "Lamp/Audio/AudioEngine.h"
 
 #include "CoreLogger.h"
+#include "Lamp/Physics/PhysicsEngine.h"
+#include "Lamp/Level/LevelSystem.h"
 
 GlobalEnvironment* g_pEnv;
 
 namespace Lamp
 {
+
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 	Application* Application::s_pInstance = nullptr;
@@ -36,6 +39,9 @@ namespace Lamp
 		Renderer::Initialize();
 		AudioEngine::Initialize();
 
+		m_pPhysicsEngine = new PhysicsEngine();
+		m_pPhysicsEngine->Initialize();
+
 		//Setup the GUI system
 		m_pImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_pImGuiLayer);
@@ -43,6 +49,8 @@ namespace Lamp
 
 	Application::~Application()
 	{
+		delete m_pPhysicsEngine;
+
 		AudioEngine::Shutdown();
 		Renderer::Shutdown();
 
@@ -59,12 +67,11 @@ namespace Lamp
 
 			m_FrameTime.Begin();
 
-			//PhysicsEngine::Get()->Simulate(timestep);
-			//PhysicsEngine::Get()->HandleCollisions();
+			PhysicsEngine::Get()->Simulate(timestep, LevelSystem::GetCurrentLevel()->GetPhysicsScene());
+
 			AudioEngine::Update();
 
 			//Update the application layers
-
 			if (!m_Minimized)
 			{
 				AppUpdateEvent updateEvent(timestep);

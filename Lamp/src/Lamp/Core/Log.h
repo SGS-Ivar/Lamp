@@ -15,19 +15,22 @@ namespace Lamp
 
 		inline static Ref<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
 
-#ifdef LP_CLIENT
 		inline static Ref<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
+
+#ifdef LP_CLIENT
 #else
-		inline static Ref<CoreLogger>& GetCoreLogger() { return s_CoreLogger; }
+		//inline static Ref<CoreLogger>& GetCoreLogger() { return s_CoreLogger; }
 #endif
 
 	private:
 		static Ref<spdlog::logger> s_ClientLogger;
 
-#ifdef LP_CLIENT
 		static Ref<spdlog::logger> s_CoreLogger;
+
+
+#ifdef LP_CLIENT
 #else
-		static Ref<CoreLogger> s_CoreLogger;
+		//static Ref<CoreLogger> s_CoreLogger;
 #endif
 	};
 
