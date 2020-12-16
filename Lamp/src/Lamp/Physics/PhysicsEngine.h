@@ -5,6 +5,7 @@
 #include "Lamp/Core/Core.h"
 
 #include <PhysX/PxPhysicsAPI.h>
+#include "Ray.h"
 
 namespace Lamp
 {
@@ -24,6 +25,8 @@ namespace Lamp
 		void Simulate(float delta, physx::PxScene* pScene);
 		void UpdateTransforms(physx::PxScene* pScene);
 
+		bool RayCast(const Ray& r, const float dist, physx::PxRaycastBuffer& hit);
+
 		//Debug
 		bool GetDebugRendererMode(physx::PxScene* pScene);
 		void SetDebugRendererMode(physx::PxScene* pScene, bool state);
@@ -34,6 +37,8 @@ namespace Lamp
 		physx::PxMaterial* CreatePhysicsMaterial(float friction, float dynFriction, float restitution);
 		physx::PxRigidDynamic* CreateRigidDynamic(PhysicalEntity* pEnt, const glm::vec3& pos, const glm::vec3& rot);
 		physx::PxShape* CreateShape();
+		physx::PxShape* CreateBoxCollider(const glm::vec3& min, const glm::vec3& max);
+		physx::PxShape* CreateSphereCollider(float radius, const glm::vec3& center);
 
 	public:
 		static PhysicsEngine* Get() { return s_PhysicsEngine; }

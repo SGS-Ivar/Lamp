@@ -15,7 +15,12 @@ void Game::OnStart()
 	{
 		Lamp::Brush* pBrush = Lamp::Brush::Create("assets/models/test1.lgf");
 		pBrush->SetPosition({ 0.f, 5.f, 0.f });
-		pBrush->GetPhysicalEntity()->GetPhysicsActor()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
+		pBrush->GetPhysicalEntity()->GetPhysicsBody()->GetActor()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
+	}
+
+	{
+		Lamp::Brush* pBrush = Lamp::Brush::Create("assets/models/testGround.lgf");
+		pBrush->SetRotation({ 90.f, 0.f, 0.f });
 	}
 }
 

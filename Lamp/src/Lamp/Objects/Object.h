@@ -17,39 +17,15 @@ namespace Lamp
 		{}
 
 		//Setting
-		void SetPosition(const glm::vec3& pos) 
-		{ 
-			m_Position = pos; 
-			CalculateModelMatrix(); 
-			UpdatedMatrix(); 
-			m_PhysicalEntity->SetTranslation(pos, m_Rotation);
-
-			EntityPositionChangedEvent e;
-			OnEvent(e);
-		}
+		void SetPosition(const glm::vec3& pos);
+		void SetPositionViaPhysics(const glm::vec3& pos);
 		inline void SetPhysicsPosition(const glm::vec3& pos) { m_Position = pos; CalculateModelMatrix(); UpdatedMatrix(); }
-		inline void SetRotation(const glm::vec3& rot) { m_Rotation = rot; CalculateModelMatrix(); UpdatedMatrix(); }
+		inline void SetRotation(const glm::vec3& rot) { m_Rotation = rot; CalculateModelMatrix(); UpdatedMatrix(); m_PhysicalEntity->SetTranslation(m_Position, rot); }
+		inline void SetRotationViaPhysics(const glm::vec3& rot) { m_Rotation = rot; CalculateModelMatrix(); UpdatedMatrix(); }
 		inline void AddRotation(const glm::vec3& rot) { m_Rotation += rot; CalculateModelMatrix(); UpdatedMatrix(); }
 		inline void SetScale(const glm::vec3& scale) { m_Scale = scale; CalculateModelMatrix(); UpdatedMatrix(); }
 
-		void SetModelMatrix(const glm::mat4& mat) 
-		{ 
-			m_ModelMatrix = mat;
-
-			glm::vec3 scale;
-			glm::vec3 rotation;
-			glm::vec3 position;
-
-			Math::DecomposeTransform(m_ModelMatrix, position, rotation, scale);
-
-			rotation = rotation - m_Rotation;
-
-			m_Rotation += rotation;
-			m_Position = position;
-			m_PhysicalEntity->GetCollider()->SetTranslation(position);
-
-			m_Scale = scale;
-		}
+		void SetModelMatrix(const glm::mat4& mat);
 		inline void SetName(const std::string& name) { m_Name = name; }
 		inline void SetLayerID(uint32_t id) { m_LayerID = id; }
 		
@@ -74,14 +50,7 @@ namespace Lamp
 		virtual void Destroy() = 0;
 
 	protected:
-		void CalculateModelMatrix()
-		{
-			m_ModelMatrix = glm::translate(glm::mat4(1.f), m_Position)
-				* glm::rotate(glm::mat4(1.f), glm::radians(m_Rotation.x), glm::vec3(1.f, 0.f, 0.f))
-				* glm::rotate(glm::mat4(1.f), glm::radians(m_Rotation.y), glm::vec3(0.f, 1.f, 0.f))
-				* glm::rotate(glm::mat4(1.f), glm::radians(m_Rotation.z), glm::vec3(0.f, 0.f, 1.f))
-				* glm::scale(glm::mat4(1.f), m_Scale);
-		}
+		void CalculateModelMatrix();
 
 		virtual void UpdatedMatrix() {}
 

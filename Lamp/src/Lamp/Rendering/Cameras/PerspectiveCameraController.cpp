@@ -84,9 +84,20 @@ namespace Lamp
 
 	glm::vec3 PerspectiveCameraController::ScreenToWorldCoords(const glm::vec2& coords, const glm::vec2& size)
 	{
-		float x = (coords.x / size.x) * 2.f - 1.f;
-		float y = (coords.y / size.y) * 2.f - 1.f;
+		float x = (2.f * coords.x) / size.x - 1.f;
+		float y = 1.f - (2.f * coords.y) / size.y;
 		float z = 1.f;
+
+		glm::vec3 rNds(x, y, z);
+		
+		glm::vec4 rClip = glm::vec4(rNds.x, rNds.y, -1.f, 1.f);
+		glm::vec4 rEye = glm::inverse(m_Camera->GetProjectionMatrix()) * rClip;
+		rEye = glm::vec4(rEye.x, rEye.y, -1.f, 1.f);
+		
+		glm::vec4 rW = glm::inverse(m_Camera->GetViewMatrix()) * rEye;
+		glm::vec3 rWorld(rW.x, rW.y, rW.z);
+
+		rWorld = glm::normalize(rWorld);
 
 		glm::mat4 matInv = glm::inverse(m_Camera->GetViewProjectionMatrix());
 		glm::vec4 dCoords = matInv * glm::vec4(x, -y, z, 1);
@@ -94,7 +105,7 @@ namespace Lamp
 		glm::vec3 dir = glm::vec3(dCoords.x, dCoords.y, dCoords.z);
 		dir = glm::normalize(dir);
 
-		return dir;
+		return rWorld;
 	}
 
 	bool PerspectiveCameraController::OnWindowResized(WindowResizeEvent& e)

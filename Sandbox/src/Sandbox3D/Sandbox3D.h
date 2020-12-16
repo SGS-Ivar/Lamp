@@ -35,6 +35,7 @@ namespace Sandbox3D
 		void GetInput();
 		void RenderGrid();
 		void RenderSkybox();
+		void RenderPhysics();
 		void CreateRenderPasses();
 		void SetupFromConfig();
 

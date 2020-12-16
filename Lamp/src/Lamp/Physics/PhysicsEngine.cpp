@@ -1,7 +1,6 @@
 #include "lppch.h"
 #include "PhysicsEngine.h"
 
-#include "Colliders/BoundingSphere.h"
 #include "PhysicsDefaults.h"
 
 #include "Lamp/Utility/Convert.h"
@@ -62,14 +61,14 @@ namespace Lamp
 	void PhysicsEngine::AddEntity(Ref<PhysicalEntity>& entity)
 	{
 		m_PhysicalEntites.push_back(entity);
-		LevelSystem::GetCurrentLevel()->GetPhysicsScene()->addActor(*entity->GetPhysicsActor());
+		LevelSystem::GetCurrentLevel()->GetPhysicsScene()->addActor(*entity->GetPhysicsBody()->GetActor());
 	}
 
 	void PhysicsEngine::RemoveEntity(Ref<PhysicalEntity>& entity)	
 	{
 		if (LevelSystem::GetCurrentLevel()->GetPhysicsScene())
 		{
-			LevelSystem::GetCurrentLevel()->GetPhysicsScene()->removeActor(*entity->GetPhysicsActor());
+			LevelSystem::GetCurrentLevel()->GetPhysicsScene()->removeActor(*entity->GetPhysicsBody()->GetActor());
 		}
 
 		auto it = std::find(m_PhysicalEntites.begin(), m_PhysicalEntites.end(), entity);
@@ -102,6 +101,11 @@ namespace Lamp
 				pE->UpdateTransform();
 			}
 		}
+	}
+
+	bool PhysicsEngine::RayCast(const Ray& r, const float dist, physx::PxRaycastBuffer& hit)
+	{
+		return LevelSystem::GetCurrentLevel()->GetPhysicsScene()->raycast(PxVec3(r.origin.x, r.origin.y, r.origin.z), PxVec3(r.direction.x, r.direction.y, r.direction.z), dist, hit);
 	}
 
 	bool PhysicsEngine::GetDebugRendererMode(physx::PxScene* pScene)
@@ -158,5 +162,18 @@ namespace Lamp
 	physx::PxShape* PhysicsEngine::CreateShape()
 	{
 		return m_pPhysics->createShape(PxBoxGeometry(PxVec3(0.25f, 0.25f, 0.25f)), *m_Material);
+	}
+
+	physx::PxShape* PhysicsEngine::CreateBoxCollider(const glm::vec3& min, const glm::vec3& max)
+	{
+		glm::vec3 half = max - min;
+		half /= 2.f;
+
+		return m_pPhysics->createShape(PxBoxGeometry(PxVec3(half.x, half.y, half.z)), *m_Material);
+	}
+
+	physx::PxShape* PhysicsEngine::CreateSphereCollider(float radius, const glm::vec3& center)
+	{
+		return m_pPhysics->createShape(PxSphereGeometry(radius), *m_Material);
 	}
 }

@@ -6,7 +6,6 @@
 
 #include "Lamp/Meshes/Model.h"
 #include "Lamp/Objects/Entity/Base/Physical/PhysicalEntity.h"
-#include "Lamp/Physics/Colliders/AABB.h"
 
 #include "Lamp/Objects/Object.h"
 
@@ -15,13 +14,7 @@ namespace Lamp
 	class Brush : public Object
 	{
 	public:
-		Brush(Ref<Model> model)
-			: m_Model(model)
-		{
-			m_PhysicalEntity = CreateRef<PhysicalEntity>(this);
-			m_PhysicalEntity->GetPhysicsActor()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-			m_Name = "Brush";
-		}
+		Brush(Ref<Model> model);
 
 		virtual void UpdatedMatrix() override;
 		virtual void OnEvent(Event& e) override;

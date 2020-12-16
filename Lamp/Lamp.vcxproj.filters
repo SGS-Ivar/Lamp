@@ -276,24 +276,6 @@
     <ClInclude Include="src\Lamp\Objects\ObjectLayer.h">
       <Filter>src\Lamp\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="src\Lamp\Physics\Colliders\AABB.h">
-      <Filter>src\Lamp\Physics\Colliders</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Lamp\Physics\Colliders\BoundingSphere.h">
-      <Filter>src\Lamp\Physics\Colliders</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Lamp\Physics\Colliders\Collider.h">
-      <Filter>src\Lamp\Physics\Colliders</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Lamp\Physics\Colliders\Plane.h">
-      <Filter>src\Lamp\Physics\Colliders</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Lamp\Physics\Collision.h">
-      <Filter>src\Lamp\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Lamp\Physics\Components\ConvexPolygonCollider.h">
-      <Filter>src\Lamp\Physics\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\Lamp\Physics\PhysicsDefaults.h">
       <Filter>src\Lamp\Physics</Filter>
     </ClInclude>
@@ -1512,6 +1494,9 @@
     <ClInclude Include="vendor\stb_image\stb\stb_image.h">
       <Filter>vendor\stb_image\stb</Filter>
     </ClInclude>
+    <ClInclude Include="src\Lamp\Physics\Bodies\PhysicsBody.h" />
+    <ClInclude Include="src\Lamp\Physics\Bodies\RigidBody.h" />
+    <ClInclude Include="src\Lamp\Physics\Bodies\StaticBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Lamp\Audio\AudioEngine.cpp">
@@ -1606,18 +1591,6 @@
     </ClCompile>
     <ClCompile Include="src\Lamp\Objects\ObjectLayer.cpp">
       <Filter>src\Lamp\Objects</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Lamp\Physics\Colliders\AABB.cpp">
-      <Filter>src\Lamp\Physics\Colliders</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Lamp\Physics\Colliders\BoundingSphere.cpp">
-      <Filter>src\Lamp\Physics\Colliders</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Lamp\Physics\Colliders\Plane.cpp">
-      <Filter>src\Lamp\Physics\Colliders</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Lamp\Physics\Components\ConvexPolygonCollider.cpp">
-      <Filter>src\Lamp\Physics\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Lamp\Physics\PhysicsEngine.cpp">
       <Filter>src\Lamp\Physics</Filter>
@@ -1719,5 +1692,8 @@
       <Filter>vendor\stb_image\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\Lamp\Utility\Convert.cpp" />
+    <ClCompile Include="src\Lamp\Physics\Bodies\RigidBody.cpp" />
+    <ClCompile Include="src\Lamp\Objects\Object.cpp" />
+    <ClCompile Include="src\Lamp\Physics\Bodies\StaticBody.cpp" />
   </ItemGroup>
 </Project>

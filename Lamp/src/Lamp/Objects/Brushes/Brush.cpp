@@ -4,8 +4,18 @@
 #include "BrushManager.h"
 #include "Lamp/Objects/ObjectLayer.h"
 
+#include "Lamp/Physics/PhysicsEngine.h"
+
 namespace Lamp
 {
+	Brush::Brush(Ref<Model> model)
+		: m_Model(model)
+	{
+		m_PhysicalEntity = CreateRef<PhysicalEntity>(this);
+		m_PhysicalEntity->GetPhysicsBody()->SetProxy(PhysicsEngine::Get()->CreateBoxCollider(m_Model->GetBoundingBox().Min, m_Model->GetBoundingBox().Max));
+			m_Name = "Brush";
+	}
+
 	void Brush::UpdatedMatrix()
 	{
 		m_Model->SetModelMatrix(m_ModelMatrix);

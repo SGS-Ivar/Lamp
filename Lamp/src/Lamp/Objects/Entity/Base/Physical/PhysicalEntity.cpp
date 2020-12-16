@@ -8,43 +8,37 @@
 #include "Lamp/Utility/Convert.h"
 
 #include "Lamp/Physics/PhysicsEngine.h"
+#include "Lamp/Physics/Bodies/StaticBody.h"
 
 namespace Lamp
 {
 	PhysicalEntity::PhysicalEntity(Object* owner)
-		: m_pOwner(owner), m_IsPhysicalized(false), m_LastPosition({ 0.f, 0.f, 0.f }),
-		m_Mass(0.f), m_Velocity(0.f), m_Collider(nullptr)
+		: m_pOwner(owner), m_IsPhysicalized(true), m_Mass(0.f)
 	{
-		m_pPxActor = PhysicsEngine::Get()->CreateRigidDynamic(this, m_pOwner->GetPosition(), m_pOwner->GetRotation());
-		physx::PxShape* s = PhysicsEngine::Get()->CreateShape();
-		m_pPxActor->attachShape(*s);
+		m_PhysicsBody = CreateRef<StaticBody>(this);
+		m_PhysicsBody->SetProxy(PhysicsEngine::Get()->CreateSphereCollider(0.25f, glm::vec3(0.f)));
+
+		//m_pPxActor = PhysicsEngine::Get()->CreateRigidDynamic(this, m_pOwner->GetPosition(), m_pOwner->GetRotation());
+		//physx::PxShape* s = PhysicsEngine::Get()->CreateShape();
+		//m_pPxActor->attachShape(*s);
 	}
 
-	PhysicalEntity::~PhysicalEntity()	
+	PhysicalEntity::~PhysicalEntity()
 	{
-		delete m_pGeometry;
-		m_pPxActor->release();
 	}
 
-	void PhysicalEntity::UpdateTransform(const physx::PxTransform& trans)
+	void PhysicalEntity::UpdateTransform()
 	{
-		physx::PxTransform newT = m_pPxActor->getGlobalPose();
-		m_pOwner->SetPosition({ newT.p.x, newT.p.y, newT.p.z });
-		m_pOwner->SetRotation(glm::eulerAngles(Convert::PxToGlmQuat(newT.q)));
+		if (!m_IsPhysicalized || !m_IsActive)
+		{
+			return;
+		}
 
+		m_PhysicsBody->UpdateTransform(m_pOwner);
 	}
 
 	void PhysicalEntity::SetTranslation(const glm::vec3& pos = glm::vec3(0.f), const glm::vec3& rot = glm::vec3(0.f))
 	{
-		glm::vec3 p = pos == glm::vec3(0.f) ? m_pOwner->GetPosition() : pos;
-		glm::vec3 r = rot == glm::vec3(0.f) ? m_pOwner->GetRotation() : rot;
-
-		glm::quat ro(r);
-
-		physx::PxTransform t;
-		t.p = physx::PxVec3(p.x, p.y, p.z);
-		t.q = physx::PxQuat(ro.x, ro.y, ro.z, ro.w);
-
-		m_pPxActor->setGlobalPose(t);
+		m_PhysicsBody->SetTranslation(m_pOwner, pos, rot);
 	}
 }

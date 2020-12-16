@@ -1,6 +1,8 @@
 #include "lppch.h"
 #include "ObjectLayer.h"
 
+#include "Lamp/Physics/PhysicsEngine.h"
+
 namespace Lamp
 {
 	Ref<ObjectLayerManager> ObjectLayerManager::s_ObjectLayerManager = nullptr;
@@ -143,21 +145,16 @@ namespace Lamp
 
 	Object* ObjectLayerManager::GetObjectFromPoint(const glm::vec3& pos, const glm::vec3& origin)
 	{
-		return nullptr;
-
 		Ray ray;
 		ray.origin = origin;
 		ray.direction = pos;
 
-		for (auto& layer : m_Layers)
+		physx::PxRaycastBuffer buf;
+		
+		if (PhysicsEngine::Get()->RayCast(ray, 300.f, buf))
 		{
-			for (auto& obj : layer.Objects)
-			{
-				if (obj->GetPhysicalEntity()->GetCollider()->IntersectRay(ray).IsIntersecting)
-				{
-					return obj;
-				}
-			}
+			PhysicalEntity* pEnt = static_cast<PhysicalEntity*>(buf.block.actor->userData);
+			return pEnt->GetOwner();
 		}
 
 		return nullptr;

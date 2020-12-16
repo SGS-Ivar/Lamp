@@ -14,7 +14,6 @@ namespace Lamp
 		bb.Max = glm::vec3(0.5f, 0.5f, 0.5f);
 
 		m_PhysicalEntity = CreateRef<PhysicalEntity>(this);
-		m_PhysicalEntity->SetCollider(CreateRef<AABB>(bb, m_Position));
 
 		m_Sprite = Texture2D::Create(spritePath);
 	}
@@ -41,7 +40,6 @@ namespace Lamp
 	bool Brush2D::OnRender(AppRenderEvent& e)
 	{
 		Renderer2D::DrawQuad(m_ModelMatrix, m_Sprite);
-		m_PhysicalEntity->GetCollider()->Render();
 
 		return true;
 	}

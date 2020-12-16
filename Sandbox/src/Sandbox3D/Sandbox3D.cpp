@@ -3,13 +3,10 @@
 
 #include "Lamp/Rendering/Renderer2D.h"
 #include "Lamp/Rendering/Renderer3D.h"
-#include <Lamp/Physics/Collision.h>
 #include <Lamp/Objects/Brushes/BrushManager.h>
 #include <Lamp/Level/LevelSystem.h>
 #include <Lamp/Event/ApplicationEvent.h>
 
-#include <Lamp/Physics/Colliders/BoundingSphere.h>
-#include <Lamp/Physics/Colliders/AABB.h>
 #include <Lamp/Physics/PhysicsEngine.h>
 #include <Lamp/Objects/Entity/BaseComponents/MeshComponent.h>
 #include <Lamp/Meshes/GeometrySystem.h>
@@ -22,6 +19,7 @@
 #include <ImGuizmo/ImGuizmo.h>
 
 #include "Windows/ModelImporter.h"
+#include "Lamp/Level/LevelSystem.h"
 
 namespace Sandbox3D
 {
@@ -36,6 +34,8 @@ namespace Sandbox3D
 		//Make sure the sandbox controller is created after level has been loaded
 		m_SandboxController = CreateRef<SandboxController>();
 		g_pEnv->ShouldRenderBB = true;
+
+		Lamp::PhysicsEngine::Get()->ToggleDebugVisualization(Lamp::LevelSystem::GetCurrentLevel()->GetPhysicsScene());
 
 		m_ModelImporter = new ModelImporter();
 
@@ -273,6 +273,17 @@ namespace Sandbox3D
 		Renderer3D::DrawSkybox();
 	}
 
+	void Sandbox3D::RenderPhysics()
+	{
+		const physx::PxRenderBuffer& rb = Lamp::LevelSystem::GetCurrentLevel()->GetPhysicsScene()->getRenderBuffer();
+		for (int i = 0; i < rb.getNbLines(); i++)
+		{
+			const physx::PxDebugLine& line = rb.getLines()[i];
+
+			Lamp::Renderer3D::DrawLine({ line.pos0.x, line.pos0.y, line.pos0.z }, { line.pos1.x, line.pos1.y, line.pos1.z }, 1.f);
+		}
+	}
+
 	void Sandbox3D::CreateRenderPasses()
 	{
 		RenderPassInfo passInfo;
@@ -290,6 +301,7 @@ namespace Sandbox3D
 
 		ptrs.push_back(LP_EXTRA_RENDER(Sandbox3D::RenderGrid));
 		ptrs.push_back(LP_EXTRA_RENDER(Sandbox3D::RenderSkybox));
+		ptrs.push_back(LP_EXTRA_RENDER(Sandbox3D::RenderPhysics));
 
 		Ref<RenderPass> renderPass = CreateRef<RenderPass>(Renderer3D::GetFrameBuffer(), passInfo, ptrs);
 		RenderPassManager::Get()->AddPass(renderPass);
