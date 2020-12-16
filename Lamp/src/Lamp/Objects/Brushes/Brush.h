@@ -18,8 +18,8 @@ namespace Lamp
 		Brush(Ref<Model> model)
 			: m_Model(model)
 		{
-			m_PhysicalEntity = CreateRef<PhysicalEntity>();
-			m_PhysicalEntity->SetCollider(CreateRef<AABB>(m_Model->GetBoundingBox(), m_Position));
+			m_PhysicalEntity = CreateRef<PhysicalEntity>(this);
+			m_PhysicalEntity->GetPhysicsActor()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
 			m_Name = "Brush";
 		}
 

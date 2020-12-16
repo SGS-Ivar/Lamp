@@ -143,6 +143,8 @@ namespace Lamp
 
 	Object* ObjectLayerManager::GetObjectFromPoint(const glm::vec3& pos, const glm::vec3& origin)
 	{
+		return nullptr;
+
 		Ray ray;
 		ray.origin = origin;
 		ray.direction = pos;

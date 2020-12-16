@@ -13,9 +13,7 @@ namespace Lamp
 	class PhysicsEngine
 	{
 	public:
-		PhysicsEngine()
-			: m_pPhysics(nullptr), m_pFoundation(nullptr), m_pEventCallback(nullptr)
-		{}
+		PhysicsEngine();
 		~PhysicsEngine();
 
 		void Initialize();
@@ -34,12 +32,11 @@ namespace Lamp
 		//Creating
 		physx::PxScene* CreatePhysicsScene(const glm::vec3& gravity);
 		physx::PxMaterial* CreatePhysicsMaterial(float friction, float dynFriction, float restitution);
-		physx::PxRigidDynamic* CreateRigidDynamic(const glm::vec3& pos, const glm::vec3& rot);
+		physx::PxRigidDynamic* CreateRigidDynamic(PhysicalEntity* pEnt, const glm::vec3& pos, const glm::vec3& rot);
 		physx::PxShape* CreateShape();
 
 	public:
-		static void SetCurrentEngine(Ref<PhysicsEngine> engine) { s_PhysicsEngine = engine; }
-		static Ref<PhysicsEngine>& Get() { return s_PhysicsEngine; }
+		static PhysicsEngine* Get() { return s_PhysicsEngine; }
 
 	private:
 		std::vector<Ref<PhysicalEntity>> m_PhysicalEntites;
@@ -47,11 +44,9 @@ namespace Lamp
 
 		physx::PxPhysics* m_pPhysics;
 		physx::PxFoundation* m_pFoundation;
-		physx::PxReal m_TimeStep;
 		physx::PxMaterial* m_Material;
-		float m_TimeAccumulator = 0.f;
 
 	private:
-		static Ref<PhysicsEngine> s_PhysicsEngine;
+		static PhysicsEngine* s_PhysicsEngine;
 	};
 }

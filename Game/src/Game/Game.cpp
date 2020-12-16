@@ -13,11 +13,9 @@ void Game::OnStart()
 	auto tempLevel = Lamp::LevelSystem::LoadLevel("assets/levels/Level.level");
 
 	{
-		Lamp::Entity* ent = Lamp::Entity::Create();
-		ent->GetOrCreateComponent<Lamp::AudioListenerComponent>();
-		ent->RemoveComponent<Lamp::AudioListenerComponent>();
-
-		ent->SetPosition(glm::vec3(10.f, 0.f, 0.f));
+		Lamp::Brush* pBrush = Lamp::Brush::Create("assets/models/test1.lgf");
+		pBrush->SetPosition({ 0.f, 5.f, 0.f });
+		pBrush->GetPhysicalEntity()->GetPhysicsActor()->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, false);
 	}
 }
 

@@ -34,7 +34,7 @@ namespace Lamp
 			m_BrushManager = CreateRef<BrushManager>();
 			m_EntityManager = CreateRef<EntityManager>();
 
-			m_pPhysicsScene = PhysicsEngine::Get()->CreatePhysicsScene({ 0.f, 9.81f, 0.f });
+			m_pPhysicsScene = PhysicsEngine::Get()->CreatePhysicsScene({ 0.f, -9.81f, 0.f });
 
 			ObjectLayer layer(0, "Main", false);
 			m_ObjectLayerManager->AddLayer(layer);

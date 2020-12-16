@@ -27,6 +27,8 @@ namespace Lamp
 		pRootNode = file.first_node("Level");
 
 		pLevel = CreateRef<Level>(pRootNode->first_attribute("name")->value(), path);
+		m_CurrentLevel = pLevel;
+
 		ObjectLayerManager::SetCurrentManager(pLevel->GetObjectLayerManager());
 
 		if (rapidxml::xml_node<>* pLevelEnv = pRootNode->first_node("LevelEnvironment"))
@@ -69,8 +71,6 @@ namespace Lamp
 		{
 			pLevel->GetEntityManager()->SetEntities(LoadEntities(pEntities, pLevel->GetEntityManager()));
 		}
-
-		m_CurrentLevel = pLevel;
 
 		LP_CORE_INFO("Level loaded!");
 

@@ -23,8 +23,7 @@ namespace Lamp
 	public:
 		Entity()
 		{
-			m_PhysicalEntity = CreateRef<PhysicalEntity>();
-			m_PhysicalEntity->SetCollider(CreateRef<BoundingSphere>(m_Position, 1.f));
+			m_PhysicalEntity = CreateRef<PhysicalEntity>(this);
 			m_Name = "Entity";
 		}
 		~Entity() {}

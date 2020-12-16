@@ -11,14 +11,16 @@ namespace Lamp
 {
 	class Brush;
 	class Entity;
+	class Object;
 
 	class PhysicalEntity
 	{
 	public:
-		PhysicalEntity();
+		PhysicalEntity(Object* owner);
 		~PhysicalEntity();
 
 		void UpdateTransform(const physx::PxTransform& trans = physx::PxTransform());
+		void SetTranslation(const glm::vec3& pos, const glm::vec3& rot);
 
 		//Getting
 		inline const glm::vec3& GetVelocity() const { return m_Velocity; }
@@ -27,6 +29,8 @@ namespace Lamp
 		inline const float GetMass() { return m_Mass; }
 		inline const bool GetIsPhysicalized() { return m_IsPhysicalized; }
 		inline const bool GetIsActive() { return m_IsActive; }
+		inline Object* GetOwner() { return m_pOwner; }
+		inline physx::PxRigidDynamic* GetPhysicsActor() { return m_pPxActor; }
 
 		//Setting
 		inline void SetVelocity(const glm::vec3& vel) { m_Velocity = vel; }
@@ -34,11 +38,14 @@ namespace Lamp
 		inline void SetMass(float mass) { m_Mass = mass; }
 		inline void SetIsPhysicalized(bool state) { m_IsPhysicalized = state; }
 		inline void SetIsActive(bool state) { m_IsActive = state; }
+		inline void SetOwner(Object* pO) { m_pOwner = pO; }
 
 	protected:
 		Ref<Collider> m_Collider;
-		physx::PxRigidActor* m_pPxActor;
+		physx::PxRigidDynamic* m_pPxActor;
 		physx::PxGeometry* m_pGeometry;
+
+		Object* m_pOwner = nullptr;
 
 		bool m_IsPhysicalized = true;
 		bool m_IsActive = true;

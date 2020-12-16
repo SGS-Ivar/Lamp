@@ -20,9 +20,9 @@ namespace Lamp
 		void SetPosition(const glm::vec3& pos) 
 		{ 
 			m_Position = pos; 
-			m_PhysicalEntity->GetCollider()->SetTranslation(pos); 
 			CalculateModelMatrix(); 
 			UpdatedMatrix(); 
+			m_PhysicalEntity->SetTranslation(pos, m_Rotation);
 
 			EntityPositionChangedEvent e;
 			OnEvent(e);
